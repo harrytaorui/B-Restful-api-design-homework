@@ -4,17 +4,27 @@ pipeline {
     
     stage("build") {
       steps {
-        echo 'stage build'
+        sh './gradlew build'
       }
       
+    }
+    stage("test") {
+      steps {
+        sh './gradlew check'
+      } 
     }
     stage("staging") {
       steps {
         echo 'stage staging'
-      }
-      
+      } 
     }
   
+  }
+  post {
+  
+    always {
+      junit 'build/reports/**/*.xml'
+    }
   }
 
 }
